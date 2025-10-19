@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인싸도 계산기 (Simple Ver.)</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 30px; }
+        h1 { color: #E1306C; } /* 인스타그램 로고 색상 */
+        .container { max-width: 500px; margin: 0 auto; padding: 20px; }
+        .input-group { margin: 15px 0; }
+        .input-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .input-group input {
+            font-size: 1.1em;
+            padding: 10px;
+            margin: 0;
+            width: calc(100% - 24px); /* padding 고려 */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            font-size: 1.3em;
+            padding: 12px 25px;
+            cursor: pointer;
+            background: linear-gradient(45deg, #405DE6, #5851D8, #833AB4, #C13584, #E1306C, #FD1D1D);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        #result { margin-top: 30px; font-size: 1.5em; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>😎 인싸도 계산기 😮</h1>
+        <p>3가지만 빠르게 입력하고 인싸력을 측정하세요!</p>
+
+        <div class="input-group">
+            <label for="followersInput">1. 팔로워 수</label>
+            <input type="number" id="followersInput" placeholder="예: 1500">
+        </div>
+        <div class="input-group">
+            <label for="followingInput">2. 팔로잉 수</label>
+            <input type="number" id="followingInput" placeholder="예: 450">
+        </div>
+        <div class="input-group">
+            <label for="mediaCountInput">3. 총 게시물 수</label>
+            <input type="number" id="mediaCountInput" placeholder="예: 120">
+        </div>
+        
+        <button onclick="calculate()">내 인싸력은?!</button>
+
+        <div id="result">
+            </div>
+    </div>
+
+    <script>
+        // 메인 계산 함수
+        function calculate() {
+            // 1. 모든 입력 값 가져오기
+            let followers = parseInt(document.getElementById('followersInput').value) || 0;
+            let following = parseInt(document.getElementById('followingInput').value) || 0;
+            let mediaCount = parseInt(document.getElementById('mediaCountInput').value) || 0;
+
+            // 2. 유효성 검사
+            if (followers < 0 || following < 0 || mediaCount < 0) {
+                document.getElementById('result').innerText = "숫자는 0 이상이어야 합니다.";
+                return;
+            }
+            if (followers === 0 && mediaCount === 0) {
+                document.getElementById('result').innerText = "유령 계정은 측정할 수 없어요! 👻";
+                return;
+            }
+
+            // 3. 점수 계산 로직 (단순화된 3요소)
+            let ratio = (following > 0) ? (followers / following) : (followers > 0 ? Infinity : 0);
+
+            // 점수 1: 영향력 (팔로워 수) (최대 40점)
+            let score1 = 5;
+            if (followers >= 10000) score1 = 40;
+            else if (followers >= 5000) score1 = 35;
+            else if (followers >= 1000) score1 = 30;
+            else if (followers >= 500) score1 = 20;
+            else if (followers >= 200) score1 = 10;
+
+            // 점수 2: 소셜력 (비율) (최대 40점)
+            let score2 = 10;
+            if (ratio >= 3.0) score2 = 40;
+            else if (ratio >= 2.0) score2 = 35;
+            else if (ratio >= 0.8) score2 = 30; // 0.8 ~ 2.0
+            else if (ratio >= 0.5) score2 = 20; // 0.5 ~ 0.8
+
+            // 점수 3: 꾸준함 (게시물 수) (최대 20점)
+            let score3 = 0;
+            if (mediaCount >= 300) score3 = 20;
+            else if (mediaCount >= 100) score3 = 15;
+            else if (mediaCount >= 50) score3 = 10;
+            else if (mediaCount >= 10) score3 = 5;
+
+            // (4) 총점 계산
+            let totalScore = score1 + score2 + score3;
+            if (totalScore > 100) totalScore = 100;
+
+            // 4. 결과 판정 (점수 구간 재조정)
+            let resultType = "아싸 😢 (조용한 관찰자형)";
+            if (totalScore >= 90) resultType = "인플루언서 👑 (당신은 슈퍼스타!)";
+            else if (totalScore >= 75) resultType = "핵인싸 🎉 (파티의 중심, 마당발)";
+            else if (totalScore >= 55) resultType = "인싸 💖 (적극적 소통가)";
+            else if (totalScore >= 30) resultType = "일반인 ☕ (균형잡힌 마이웨이)";
+            
+            // 5. 결과 표시
+            document.getElementById('result').innerText = `당신의 인싸 점수는 [ ${totalScore}점 ]\n타입: ${resultType}`;
+        }
+    </script>
+
+</div>
+</body>
+</html>
