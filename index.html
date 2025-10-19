@@ -28,7 +28,7 @@
 
     <style>
         body { font-family: sans-serif; text-align: center; margin-top: 30px; }
-        h1 { color: #E1306C; } /* 인스타그램 로고 색상 */
+        h1 { color: #E1306C; }
         .container { max-width: 500px; margin: 0 auto; padding: 20px; }
         .input-group { margin: 15px 0; }
         .input-group label { display: block; margin-bottom: 5px; font-weight: bold; }
@@ -36,7 +36,7 @@
             font-size: 1.1em;
             padding: 10px;
             margin: 0;
-            width: calc(100% - 24px); /* padding 고려 */
+            width: calc(100% - 24px);
             border: 1px solid #ccc;
             border-radius: 5px;
         }
@@ -97,66 +97,53 @@
             }
 
             // 3. (신규) 절대 기준: '아싸' 선별 (Activity Floor)
-            // 조사 결과, 중앙값인 150명 미만은 '일반인'으로 보기 어려움
             const ASSA_THRESHOLD = 150; 
             if (followers < ASSA_THRESHOLD) {
                 let resultType = "아싸 😢 (조용한 관찰자형)";
                 
-                // 팔로워는 적은데 팔로잉이 훨씬 많으면 (비율 0.5 미만)
                 if (following > followers * 2 && following > 100) { 
                     resultType = "프로 탐색러 🕵️ (트렌드 사냥꾼)";
                 }
                 
-                // 점수 계산 없이 바로 결과 표시 후 함수 종료
                 document.getElementById('result').innerText = `당신의 타입: ${resultType}`;
                 return; 
             }
 
-            // --- (여기부터는 팔로워 150명 이상인 사용자만 해당) ---
-
-            // 4. 점수 계산 로직 (가중치 조정)
+            // 4. 점수 계산 로직
             let ratio = (following > 0) ? (followers / following) : (followers > 0 ? Infinity : 0);
 
-            // 점수 1: 영향력 (팔로워 수) (최대 40점)
-            // (150명 이하는 위에서 걸러졌으므로 150~199명은 10점)
             let score1 = 10; 
             if (followers >= 10000) score1 = 40;
             else if (followers >= 5000) score1 = 35;
-            else if (followers >= 1000) score1 = 30; // 핵인싸
-            else if (followers >= 500) score1 = 20;  // 인싸
-            else if (followers >= 200) score1 = 15;  // 일반인
+            else if (followers >= 1000) score1 = 30;
+            else if (followers >= 500) score1 = 20;
+            else if (followers >= 200) score1 = 15;
 
-            // 점수 2: 소셜력 (비율) (최대 40점)
             let score2 = 10;
             if (ratio >= 3.0) score2 = 40;
             else if (ratio >= 2.0) score2 = 35;
-            else if (ratio >= 0.8) score2 = 30; // 0.8 ~ 2.0 (소통형)
-            else if (ratio >= 0.5) score2 = 20; // 0.5 ~ 0.8
+            else if (ratio >= 0.8) score2 = 30;
+            else if (ratio >= 0.5) score2 = 20;
 
-            // 점수 3: 꾸준함 (게시물 수) (최대 20점)
             let score3 = 0;
             if (mediaCount >= 300) score3 = 20;
             else if (mediaCount >= 100) score3 = 15;
             else if (mediaCount >= 50) score3 = 10;
             else if (mediaCount >= 10) score3 = 5;
 
-            // 5. 총점 계산
             let totalScore = score1 + score2 + score3;
             if (totalScore > 100) totalScore = 100;
 
-            // 6. 결과 판정 (최저 점수대 상향)
-            // '아싸'는 위에서 이미 걸러졌으므로, 150명 이상은 기본 '일반인'
+            // 6. 결과 판정
             let resultType = "일반인 ☕ (균형잡힌 마이웨이)"; 
             if (totalScore >= 90) resultType = "인플루언서 👑 (당신은 슈퍼스타!)";
             else if (totalScore >= 75) resultType = "핵인싸 🎉 (파티의 중심, 마당발)";
             else if (totalScore >= 55) resultType = "인싸 💖 (적극적 소통가)";
-            // (54점 이하는 모두 '일반인')
             
             // 7. 결과 표시
             document.getElementById('result').innerText = `당신의 인싸 점수는 [ ${totalScore}점 ]\n타입: ${resultType}`;
         }
     </script>
 
-</div>
 </body>
 </html>
