@@ -14,19 +14,15 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="😎 인싸도 계산기 😮">
     <meta property="og:description" content="내 인스타그램 계정은 인싸일까? 아싸일까? 나의 인싸력을 지금 바로 측정해보세요!">
-    
     <meta property="og:url" content="https://inssado.netlify.app/">
-    
     <meta property="og:image" content="https://inssado.netlify.app/og-image.png">
-    
-    
     <meta name="twitter:card" content="summary_large_image"> 
     <meta name="twitter:title" content="😎 인싸도 계산기 😮">
     <meta name="twitter:description" content="내 인스타그램 계정은 인싸일까? 아싸일까? 나의 인싸력을 지금 바로 측정해보세요!">
     <meta name="twitter:image" content="https://inssado.netlify.app/og-image.png">
 
 
-    <style>
+   <style>
         body { font-family: sans-serif; text-align: center; margin-top: 30px; }
         h1 { color: #E1306C; }
         .container { max-width: 500px; margin: 0 auto; padding: 20px; }
@@ -96,49 +92,99 @@
                 return;
             }
 
-            // 3. (신규) 절대 기준: '아싸' 선별 (Activity Floor)
+            // 3. (신규) '아싸' 그룹 세분화 (V4.0)
             const ASSA_THRESHOLD = 150; 
+            const MEDIA_MANY_THRESHOLD = 150;
+            const MEDIA_LOW_THRESHOLD = 30;
+
             if (followers < ASSA_THRESHOLD) {
-                let resultType = "아싸 😢 (조용한 관찰자형)";
+                let resultType;
                 
+                // (예외) 프로 탐색러
                 if (following > followers * 2 && following > 100) { 
                     resultType = "프로 탐색러 🕵️ (트렌드 사냥꾼)";
+                } 
+                // (신규) 아싸 세분화
+                else if (mediaCount >= MEDIA_MANY_THRESHOLD) {
+                    resultType = "아싸 (기록형) 📝 (나만의 일기장)";
+                } 
+                else if (mediaCount >= MEDIA_LOW_THRESHOLD) {
+                    resultType = "아싸 (소셜형) 😢 (조용한 관찰자)";
+                } 
+                else {
+                    resultType = "아싸 (유령) 👻 (존재감 제로)";
                 }
                 
                 document.getElementById('result').innerText = `당신의 타입: ${resultType}`;
                 return; 
             }
 
-            // 4. 점수 계산 로직
+            // --- (여기부터는 팔로워 150명 이상인 사용자만 해당) ---
+
+            // 4. 점수 로직 (V3.0 덧셈 방식 유지)
             let ratio = (following > 0) ? (followers / following) : (followers > 0 ? Infinity : 0);
 
-            let score1 = 10; 
-            if (followers >= 10000) score1 = 40;
-            else if (followers >= 5000) score1 = 35;
-            else if (followers >= 1000) score1 = 30;
-            else if (followers >= 500) score1 = 20;
+            // 점수 1: 영향력 (팔로워 수) (최대 50점)
+            let score1 = 10;
+            if (followers >= 10000) score1 = 50;
+            else if (followers >= 5000) score1 = 45;
+            else if (followers >= 1000) score1 = 35;
+            else if (followers >= 500) score1 = 25;
             else if (followers >= 200) score1 = 15;
 
-            let score2 = 10;
-            if (ratio >= 3.0) score2 = 40;
-            else if (ratio >= 2.0) score2 = 35;
-            else if (ratio >= 0.8) score2 = 30;
-            else if (ratio >= 0.5) score2 = 20;
+            // 점수 2: 소셜력 (비율) (최대 30점)
+            let score2 = 5;
+            if (ratio >= 3.0) score2 = 30;
+            else if (ratio >= 2.0) score2 = 25;
+            else if (ratio >= 0.8) score2 = 20;
+            else if (ratio >= 0.5) score2 = 10;
 
+            // 점수 3: 꾸준함 (게시물 수) (최대 20점) (보너스)
             let score3 = 0;
-            if (mediaCount >= 300) score3 = 20;
+            if (mediaCount >= MEDIA_MANY_THRESHOLD) score3 = 20; // 150개 이상
             else if (mediaCount >= 100) score3 = 15;
             else if (mediaCount >= 50) score3 = 10;
-            else if (mediaCount >= 10) score3 = 5;
+            else if (mediaCount >= 10) score3 = 5; // 10개 미만 0점
 
+            // 5. 총점 계산
             let totalScore = score1 + score2 + score3;
             if (totalScore > 100) totalScore = 100;
 
-            // 6. 결과 판정
-            let resultType = "일반인 ☕ (균형잡힌 마이웨이)"; 
-            if (totalScore >= 90) resultType = "인플루언서 👑 (당신은 슈퍼스타!)";
-            else if (totalScore >= 75) resultType = "핵인싸 🎉 (파티의 중심, 마당발)";
-            else if (totalScore >= 55) resultType = "인싸 💖 (적극적 소통가)";
+            // 6. 결과 판정: '인싸' 및 '일반인' 세분화
+            const LOW_MEDIA_THRESHOLD_INSSA = 50; // 인싸 구분용 (V3.0 기준)
+            let resultType;
+
+            if (totalScore >= 90) {
+                resultType = "인플루언서 👑 (당신은 슈퍼스타!)";
+            } 
+            else if (totalScore >= 70) {
+                // 핵인싸 레벨
+                if (mediaCount < LOW_MEDIA_THRESHOLD_INSSA) {
+                    resultType = "핵인싸 (스토리형) 🤫 (숨은 고수)";
+                } else {
+                    resultType = "핵인싸 (클래식) 🎉 (파티의 중심)";
+                }
+            } 
+            else if (totalScore >= 50) {
+                // 인싸 레벨
+                if (mediaCount < LOW_MEDIA_THRESHOLD_INSSA) {
+                    resultType = "샤이 인싸 💖 (스토리/소통형)";
+                } else {
+                    resultType = "인싸 💖 (적극적 소통가)";
+                }
+            } 
+            else {
+                // (신규) '일반인' 세분화 (총점 50 미만)
+                if (mediaCount >= MEDIA_MANY_THRESHOLD) { // 150개 이상
+                    resultType = "일반인 (헤비 유저) 📸 (일상 공유가)";
+                } 
+                else if (mediaCount >= MEDIA_LOW_THRESHOLD) { // 30개 이상
+                    resultType = "일반인 (표준) ☕ (균형잡힌 마이웨이)";
+                } 
+                else { // 30개 미만
+                    resultType = "일반인 (눈팅족) 🤫 (보기만 할게요)";
+                }
+            }
             
             // 7. 결과 표시
             document.getElementById('result').innerText = `당신의 인싸 점수는 [ ${totalScore}점 ]\n타입: ${resultType}`;

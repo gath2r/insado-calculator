@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta name="naver-site-verification" content="20d9944d895cb6fe5c7a202f2ed6ccf64da71793" />
+    <meta name="google-adsense-account" content="ca-pub-8367695516868688">
+    <meta name="google-site-verification" content="n9D9TBUYdc_pfvWFDCWRnr1sJJE5Rfthotq1E_sH-1Y" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>인싸도 계산기</title>
+    
+    <meta name="description" content="내 인스타그램 계정은 인싸일까? 아싸일까? 팔로워, 팔로잉, 게시물 수로 나의 인싸력을 지금 바로 측정해보세요!">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="😎 인싸도 계산기 😮">
+    <meta property="og:description" content="내 인스타그램 계정은 인싸일까? 아싸일까? 나의 인싸력을 지금 바로 측정해보세요!">
+    
+    <meta property="og:url" content="https://inssado.netlify.app/">
+    
+    <meta property="og:image" content="https://inssado.netlify.app/og-image.png">
+    
+    
+    <meta name="twitter:card" content="summary_large_image"> 
+    <meta name="twitter:title" content="😎 인싸도 계산기 😮">
+    <meta name="twitter:description" content="내 인스타그램 계정은 인싸일까? 아싸일까? 나의 인싸력을 지금 바로 측정해보세요!">
+    <meta name="twitter:image" content="https://inssado.netlify.app/og-image.png">
