@@ -38,7 +38,6 @@
             border-radius: 5px;
         }
         
-        /* 계산하기 버튼 */
         button {
             font-size: 1.3em;
             padding: 12px 25px;
@@ -48,30 +47,24 @@
             border: none;
             border-radius: 8px;
             font-weight: bold;
-            margin-top: 10px; /* 버튼 간 간격 */
+            margin-top: 10px;
         }
         
-        /* 공유 버튼들을 감싸는 래퍼 */
         .button-wrapper {
-             display: none; /* 평소엔 숨김 */
+             display: none;
              margin-top: 15px;
         }
-
-        /* 이미지 저장 버튼 */
         #saveButton {
             font-size: 1.0em;
             padding: 10px 20px;
-            background: #0095F6; /* 파란색 */
+            background: #0095F6;
         }
-        
-        /* 링크 공유 버튼 */
         #shareButton {
             font-size: 1.0em;
             padding: 10px 20px;
-            background: #25D366; /* 초록색 (공유 느낌) */
+            background: #25D366;
         }
         
-        /* 결과 표시 영역 */
         #result {
             margin-top: 30px;
             font-size: 1.5em;
@@ -82,6 +75,22 @@
             border: 1px solid #eee;
             white-space: pre-line;
         }
+
+        /* [V6.0] 피드백 버튼 스타일 */
+        .feedback-section { display: none; margin-top: 20px; }
+        .feedback-section p { font-size: 1.1em; }
+        .feedback-button {
+            font-size: 1.0em;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #agreeBtn { background-color: #4CAF50; color: white; border: none; }
+        #disagreeBtn { background-color: #F44336; color: white; border: none; }
+        #disagreeOptions { display: none; margin-top: 15px; }
+        .disagree-choice { background-color: #ff9800; color: white; border: none; }
+        #feedbackThanks { display:none; font-weight:bold; color:#0095F6; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -115,6 +124,31 @@
                 친구에게 링크 공유하기 🚀
             </button>
         </div>
+
+        <div class="feedback-section" id="feedbackSection">
+            <hr>
+            <p><strong>이 결과, 정확한가요?</strong></p>
+            <button id="agreeBtn" class="feedback-button" onclick="handleFeedback('agree')">인정! 👍</button>
+            <button id="disagreeBtn" class="feedback-button" onclick="handleFeedback('disagree')">인정 못해! 👎</button>
+            
+            <div id="disagreeOptions">
+                <p>그렇다면 당신의 실제 타입은?</p>
+                <button id="choice1" class="feedback-button disagree-choice"></button>
+                <button id="choice2" class="feedback-button disagree-choice"></button>
+            </div>
+        </div>
+
+        <p id="feedbackThanks">피드백 감사합니다!</p>
+
+        <form name="feedback" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+            <input type="hidden" name="form-name" value="feedback" />
+            <p class="hidden"><label>Don’t fill this out if you’re human: <input name="bot-field" /></label></p>
+            <input type="text" name="followers" />
+            <input type="text" name="following" />
+            <input type="text" name="mediaCount" />
+            <input type="text" name="resultType" />
+            <input type="text" name="feedback" /> <input type="text" name="userChoice" /> </form>
+
     </div>
 
     <script>
@@ -122,16 +156,15 @@
 
         // V5.2 링크 공유 함수 (Web Share API)
         function shareLink() {
-            if (navigator.share) { // Web Share API를 지원하는지 확인
+            if (navigator.share) {
                 navigator.share({
                     title: '😎 인싸도 계산기 😮',
                     text: '내 인스타그램 계정은 인싸일까? 아싸일까? 지금 바로 측정해보세요!',
-                    url: 'https://inssado.netlify.app/', // 본인 사이트 주소
+                    url: 'https://inssado.netlify.app/',
                 })
                 .then(() => console.log('링크 공유 성공'))
                 .catch((error) => console.log('링크 공유 실패', error));
             } else {
-                // Web Share API를 지원하지 않는 브라우저 (예: PC 데스크탑)
                 alert("이 브라우저에서는 링크 공유 기능을 지원하지 않습니다.\n주소를 복사하여 공유해주세요!");
             }
         }
@@ -139,26 +172,108 @@
         // V5.1 이미지 저장 함수 (html2canvas)
         function saveResultAsImage() {
             const resultElement = document.getElementById('result');
-            
-            // 팝업 차단 경고
             alert("이미지 저장을 시작합니다.\n\n[주의] 브라우저(크롬 등) 상단에 '팝업 차단' 아이콘이 뜨면, '항상 허용'으로 변경해주세요!");
-            
             html2canvas(resultElement).then(function(canvas) {
                 const imageUrl = canvas.toDataURL('image/png');
                 const downloadLink = document.createElement('a');
                 downloadLink.href = imageUrl;
-                downloadLink.download = 'my_inssa_result.png'; // 저장될 파일 이름
-                
+                downloadLink.download = 'my_inssa_result.png'; 
                 document.body.appendChild(downloadLink);
-                downloadLink.click(); // 이 부분이 팝업으로 차단될 수 있음
+                downloadLink.click();
                 document.body.removeChild(downloadLink);
-
-                // 저장 후 안내
                 alert("스토리 공유용 이미지가 갤러리에 저장되었습니다!\n\n(혹시 저장이 안 됐다면?)\n1. 팝업 차단을 해제하세요.\n2. (모바일) 이미지가 새 탭으로 열리면, 사진을 꾹 눌러 '이미지 저장'을 선택하세요.");
             });
         }
 
-        // V4.0 메인 계산 함수 (세분화 로직 적용)
+        // [V6.0] 계산 결과를 저장할 전역 변수
+        let currentResult = {
+            followers: 0,
+            following: 0,
+            mediaCount: 0,
+            resultType: ""
+        };
+
+        // [V6.0] Netlify 폼 제출 함수
+        function submitFeedbackToNetlify(feedbackData) {
+            const form = document.forms['feedback'];
+            form.elements['followers'].value = feedbackData.followers;
+            form.elements['following'].value = feedbackData.following;
+            form.elements['mediaCount'].value = feedbackData.mediaCount;
+            form.elements['resultType'].value = feedbackData.resultType;
+            form.elements['feedback'].value = feedbackData.feedback;
+            form.elements['userChoice'].value = feedbackData.userChoice || "";
+
+            fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(new FormData(form)).toString()
+            })
+            .then(() => {
+                console.log('Netlify 폼 제출 성공');
+                // 3. 사용자에게 감사 메시지 표시
+                document.getElementById('feedbackSection').style.display = 'none';
+                document.getElementById('feedbackThanks').style.display = 'block';
+            })
+            .catch((error) => {
+                console.error('Netlify 폼 제출 실패:', error);
+                alert('오류: 피드백 제출에 실패했습니다.');
+            });
+        }
+
+        // [V6.1 수정] 피드백 버튼 핸들러 (AI 알림 추가)
+        function handleFeedback(type, userChoice = null) {
+            const disagreeOptions = document.getElementById('disagreeOptions');
+
+            if (type === 'agree') {
+                // '인정' 버튼 클릭
+                
+                // [신규] AI 학습 알림
+                alert("피드백 감사합니다! AI가 사용자의 응답을 학습합니다. 🤖");
+                
+                submitFeedbackToNetlify({
+                    ...currentResult,
+                    feedback: 'agree'
+                });
+            } else if (type === 'disagree' && !userChoice) {
+                // '인정 못해' 버튼 *최초* 클릭
+                disagreeOptions.style.display = 'block';
+                
+                const choice1 = document.getElementById('choice1');
+                const choice2 = document.getElementById('choice2');
+                
+                // 결과에 따라 다른 선택지 제시
+                if (currentResult.resultType.includes('인싸')) {
+                    choice1.innerText = "난 사실... 아싸 😢";
+                    choice1.onclick = () => handleFeedback('disagree', '아싸');
+                    choice2.innerText = "난 사실... 핵인싸 🎉";
+                    choice2.onclick = () => handleFeedback('disagree', '핵인싸');
+                } else if (currentResult.resultType.includes('아싸')) {
+                     choice1.innerText = "난 사실... 일반인 ☕";
+                    choice1.onclick = () => handleFeedback('disagree', '일반인');
+                    choice2.innerText = "난 사실... 인싸 💖";
+                    choice2.onclick = () => handleFeedback('disagree', '인싸');
+                } else { // 일반인 또는 인플루언서
+                    choice1.innerText = "난 사실... 아싸 😢";
+                    choice1.onclick = () => handleFeedback('disagree', '아싸');
+                    choice2.innerText = "난 사실... 인싸 💖";
+                    choice2.onclick = () => handleFeedback('disagree', '인싸');
+                }
+
+            } else if (type === 'disagree' && userChoice) {
+                // '인정 못해' -> '난 사실...' 버튼 클릭
+                
+                // [신규] AI 학습 알림
+                alert("피드백 감사합니다! AI가 사용자의 응답을 학습합니다. 🤖");
+
+                submitFeedbackToNetlify({
+                    ...currentResult,
+                    feedback: 'disagree',
+                    userChoice: userChoice
+                });
+            }
+        }
+
+        // [V6.1 수정] 메인 계산 함수
         function calculate() {
             // 1. 모든 입력 값 가져오기
             let followers = parseInt(document.getElementById('followersInput').value) || 0;
@@ -180,10 +295,12 @@
             const MEDIA_MANY_THRESHOLD = 150;
             const MEDIA_LOW_THRESHOLD = 30;
 
+            let resultType = ""; // 결과 타입
+            let totalScore = 0; // 점수
+            let resultText = ""; // 최종 텍스트
+
             // '아싸' 그룹 판별 (팔로워 150 미만)
             if (followers < ASSA_THRESHOLD) {
-                let resultType;
-                
                 if (following > followers * 2 && following > 100) { 
                     resultType = "프로 탐색러 🕵️ (트렌드 사냥꾼)";
                 } 
@@ -196,77 +313,75 @@
                 else {
                     resultType = "아싸 (유령) 👻 (존재감 제로)";
                 }
-                
-                // 아싸 결과 표시
-                document.getElementById('result').innerText = `당신의 타입:\n${resultType}`;
-                document.getElementById('buttonWrapper').style.display = 'block'; // 공유 버튼 표시
-                return; // 점수 계산 없이 함수 종료
-            }
-
-            // --- (여기부터는 팔로워 150명 이상인 사용자만 해당) ---
-
-            // 4. 점수 로직 (덧셈 방식)
-            let ratio = (following > 0) ? (followers / following) : (followers > 0 ? Infinity : 0);
-
-            // 점수 1: 영향력 (팔로워 수) (최대 50점)
-            let score1 = 10;
-            if (followers >= 10000) score1 = 50;
-            else if (followers >= 5000) score1 = 45;
-            else if (followers >= 1000) score1 = 35;
-            else if (followers >= 500) score1 = 25;
-            else if (followers >= 200) score1 = 15;
-
-            // 점수 2: 소셜력 (비율) (최대 30점)
-            let score2 = 5;
-            if (ratio >= 3.0) score2 = 30;
-            else if (ratio >= 2.0) score2 = 25;
-            else if (ratio >= 0.8) score2 = 20;
-            else if (ratio >= 0.5) score2 = 10;
-
-            // 점수 3: 꾸준함 (게시물 수) (최대 20점) (보너스)
-            let score3 = 0;
-            if (mediaCount >= MEDIA_MANY_THRESHOLD) score3 = 20; // 150개 이상
-            else if (mediaCount >= 100) score3 = 15;
-            else if (mediaCount >= 50) score3 = 10;
-            else if (mediaCount >= 10) score3 = 5;
-
-            // 5. 총점 계산
-            let totalScore = score1 + score2 + score3;
-            if (totalScore > 100) totalScore = 100;
-
-            // 6. 결과 판정: '인싸' 및 '일반인' 세분화
-            const LOW_MEDIA_THRESHOLD_INSSA = 50; 
-            let resultType;
-
-            if (totalScore >= 90) {
-                resultType = "인플루언서 👑 (당신은 슈퍼스타!)";
+                resultText = `당신의 타입:\n${resultType}`;
             } 
-            else if (totalScore >= 70) {
-                resultType = (mediaCount < LOW_MEDIA_THRESHOLD_INSSA) ? "핵인싸 (스토리형) 🤫 (숨은 고수)" : "핵인싸 (클래식) 🎉 (파티의 중심)";
-            } 
-            else if (totalScore >= 50) {
-                resultType = (mediaCount < LOW_MEDIA_THRESHOLD_INSSA) ? "샤이 인싸 💖 (스토리/소통형)" : "인싸 💖 (적극적 소통가)";
-            } 
+            // '일반인' 이상 그룹 판별 (팔로워 150 이상)
             else {
-                // '일반인' 세분화 (총점 50 미만)
-                if (mediaCount >= MEDIA_MANY_THRESHOLD) {
-                    resultType = "일반인 (헤비 유저) 📸 (일상 공유가)";
+                let ratio = (following > 0) ? (followers / following) : (followers > 0 ? Infinity : 0);
+                
+                // 점수 1: 영향력 (팔로워 수) (최대 50점)
+                let score1 = 10;
+                if (followers >= 10000) score1 = 50;
+                else if (followers >= 5000) score1 = 45;
+                else if (followers >= 1000) score1 = 35;
+                else if (followers >= 500) score1 = 25;
+                else if (followers >= 200) score1 = 15;
+
+                // 점수 2: 소셜력 (비율) (최대 30점)
+                let score2 = 5;
+                if (ratio >= 3.0) score2 = 30;
+                else if (ratio >= 2.0) score2 = 25;
+                else if (ratio >= 0.8) score2 = 20;
+                else if (ratio >= 0.5) score2 = 10;
+
+                // 점수 3: 꾸준함 (게시물 수) (최대 20점) (보너스)
+                let score3 = 0;
+                if (mediaCount >= MEDIA_MANY_THRESHOLD) score3 = 20; 
+                else if (mediaCount >= 100) score3 = 15;
+                else if (mediaCount >= 50) score3 = 10;
+                else if (mediaCount >= 10) score3 = 5;
+
+                totalScore = score1 + score2 + score3;
+                if (totalScore > 100) totalScore = 100;
+
+                // 결과 판정
+                const LOW_MEDIA_THRESHOLD_INSSA = 50; 
+                if (totalScore >= 90) {
+                    resultType = "인플루언서 👑 (당신은 슈퍼스타!)";
                 } 
-                else if (mediaCount >= MEDIA_LOW_THRESHOLD) {
-                    resultType = "일반인 (표준) ☕ (균형잡힌 마이웨이)";
+                else if (totalScore >= 70) {
+                    resultType = (mediaCount < LOW_MEDIA_THRESHOLD_INSSA) ? "핵인싸 (스토리형) 🤫 (숨은 고수)" : "핵인싸 (클래식) 🎉 (파티의 중심)";
+                } 
+                else if (totalScore >= 50) {
+                    resultType = (mediaCount < LOW_MEDIA_THRESHOLD_INSSA) ? "샤이 인싸 💖 (스토리/소통형)" : "인싸 💖 (적극적 소통가)";
                 } 
                 else {
-                    resultType = "일반인 (눈팅족) 🤫 (보기만 할게요)";
+                    // '일반인' 세분화 (총점 50 미만)
+                    if (mediaCount >= MEDIA_MANY_THRESHOLD) {
+                        resultType = "일반인 (헤비 유저) 📸 (일상 공유가)";
+                    } 
+                    else if (mediaCount >= MEDIA_LOW_THRESHOLD) {
+                        resultType = "일반인 (표준) ☕ (균형잡힌 마이웨이)";
+                    } 
+                    else {
+                        resultType = "일반인 (눈팅족) 🤫 (보기만 할게요)";
+                    }
                 }
+                resultText = `당신의 인싸 점수는 [ ${totalScore}점 ]\n타입: ${resultType}`;
             }
             
             // 7. 결과 표시
-            document.getElementById('result').innerText = `당신의 인싸 점수는 [ ${totalScore}점 ]\n타입: ${resultType}`;
+            document.getElementById('result').innerText = resultText;
             
-            // 8. 공유 버튼 래퍼 표시
+            // 8. 전역 변수에 현재 결과 저장
+            currentResult = { followers, following, mediaCount, resultType };
+
+            // 9. 공유 버튼 및 피드백 섹션 표시 (초기화)
             document.getElementById('buttonWrapper').style.display = 'block';
+            document.getElementById('feedbackSection').style.display = 'block';
+            document.getElementById('feedbackThanks').style.display = 'none';
+            document.getElementById('disagreeOptions').style.display = 'none';
         }
     </script>
-
 </body>
 </html>
