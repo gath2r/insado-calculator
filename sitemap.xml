@@ -4,13 +4,68 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
-
 
 <url>
   <loc>https://inssado.netlify.app/</loc>
   <lastmod>2025-10-19T15:02:41+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>1.0</priority>
 </url>
 
+<url>
+  <loc>https://inssado.netlify.app/about.html</loc>
+  <lastmod>2025-10-19T15:02:41+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.6</priority>
+</url>
+
+<url>
+  <loc>https://inssado.netlify.app/contact.html</loc>
+  <lastmod>2025-10-19T15:02:41+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.5</priority>
+</url>
+
+<url>
+  <loc>https://inssado.netlify.app/privacy.html</loc>
+  <lastmod>2025-10-19T15:02:41+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.4</priority>
+</url>
+
+<url>
+  <loc>https://inssado.netlify.app/terms.html</loc>
+  <lastmod>2025-10-19T15:02:41+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.4</priority>
+</url>
+
+<url>
+  <loc>https://inssado.netlify.app/guide/faq-instagram-metrics.html</loc>
+  <lastmod>2025-10-19T15:02:41+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+
+<url>
+  <loc>https://inssado.netlify.app/guide/profile-ratio.html</loc>
+  <lastmod>2025-10-19T15:02:41+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://inssado.netlify.app/guide/post-count.html</loc>
+  <lastmod>2025-10-19T15:02:41+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://inssado.netlify.app/guide/follower-growth.html</loc>
+  <lastmod>2025-10-19T15:02:41+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
 
 </urlset>

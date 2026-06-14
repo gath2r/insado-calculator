@@ -6,44 +6,70 @@
     <meta name="google-site-verification" content="n9D9TBUYdc_pfvWFDCWRnr1sJJE5Rfthotq1E_sH-1Y" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>인싸도 계산기</title>
-    
-    <meta name="description" content="내 인스타그램 계정은 인싸일까? 아싸일까? 팔로워, 팔로잉, 게시물 수로 나의 인싸력을 지금 바로 측정해보세요!">
+
+    <title>인싸도 계산기 — 인스타그램 인싸력 무료 측정</title>
+
+    <meta name="description" content="팔로워·팔로잉·게시물 수를 입력하면 나의 인스타그램 인싸력 점수와 유형을 무료로 분석해드립니다. 핵인싸·인싸·일반인·아싸 중 어디에 속하는지 확인해보세요.">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="😎 인싸도 계산기 😮">
-    <meta property="og:description" content="내 인스타그램 계정은 인싸일까? 아싸일까? 나의 인싸력을 지금 바로 측정해보세요!">
+    <meta property="og:title" content="인싸도 계산기 — 인스타그램 인싸력 무료 측정">
+    <meta property="og:description" content="팔로워·팔로잉·게시물 수를 입력하면 나의 인스타그램 인싸력을 분석해드립니다.">
     <meta property="og:url" content="https://inssado.netlify.app/">
     <meta property="og:image" content="https://inssado.netlify.app/og-image.png">
-    <meta name="twitter:card" content="summary_large_image"> 
-    <meta name="twitter:title" content="😎 인싸도 계산기 😮">
-    <meta name="twitter:description" content="내 인스타그램 계정은 인싸일까? 아싸일까? 나의 인싸력을 지금 바로 측정해보세요!">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="인싸도 계산기 — 인스타그램 인싸력 무료 측정">
+    <meta name="twitter:description" content="팔로워·팔로잉·게시물 수를 입력하면 나의 인스타그램 인싸력을 분석해드립니다.">
     <meta name="twitter:image" content="https://inssado.netlify.app/og-image.png">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8367695516868688"
      crossorigin="anonymous"></script>
-
-<script src="https://static.toss.im/bedrock/sdk/v1/bedrock.js"></script>
-
+    <script src="https://static.toss.im/bedrock/sdk/v1/bedrock.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        body { font-family: sans-serif; text-align: center; margin-top: 30px; }
-        h1 { color: #E1306C; }
-        .container { max-width: 500px; margin: 0 auto; padding: 20px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: sans-serif; color: #333; background: #fff; }
+        a { color: #E1306C; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        nav {
+            background: #fff;
+            border-bottom: 2px solid #f0f0f0;
+            padding: 12px 24px;
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        nav .brand { font-weight: bold; color: #E1306C; font-size: 1.1em; flex: 1; min-width: 160px; }
+        nav .nav-link { color: #555; font-size: 0.95em; }
+
+        .hero {
+            text-align: center;
+            padding: 40px 20px 24px;
+            background: linear-gradient(180deg, #fff5f8 0%, #fff 100%);
+        }
+        h1 { color: #E1306C; font-size: 2em; margin-bottom: 12px; }
+        .hero-desc {
+            max-width: 560px;
+            margin: 0 auto;
+            color: #555;
+            line-height: 1.8;
+            font-size: 0.98em;
+        }
+
+        .container { max-width: 520px; margin: 0 auto; padding: 20px 20px 40px; }
         .input-group { margin: 15px 0; }
-        .input-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .input-group label { display: block; margin-bottom: 6px; font-weight: bold; }
         .input-group input {
             font-size: 1.1em;
-            padding: 10px;
-            margin: 0;
-            width: calc(100% - 24px);
+            padding: 10px 12px;
+            width: 100%;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 6px;
         }
-        
-        button {
+
+        .calc-btn {
             font-size: 1.3em;
             padding: 12px 25px;
             cursor: pointer;
@@ -53,90 +79,137 @@
             border-radius: 8px;
             font-weight: bold;
             margin-top: 10px;
+            width: 100%;
         }
-        
-        .button-wrapper {
-             display: none;
-             margin-top: 15px;
-        }
+        .button-wrapper { display: none; margin-top: 15px; display: none; }
         #saveButton {
-            font-size: 1.0em;
-            padding: 10px 20px;
-            background: #0095F6;
+            font-size: 1em; padding: 10px 20px; background: #0095F6;
+            color: white; border: none; border-radius: 8px; cursor: pointer; margin: 4px;
         }
         #shareButton {
-            font-size: 1.0em;
-            padding: 10px 20px;
-            background: #25D366;
+            font-size: 1em; padding: 10px 20px; background: #25D366;
+            color: white; border: none; border-radius: 8px; cursor: pointer; margin: 4px;
         }
-        
+
         #result {
-            margin-top: 30px;
-            font-size: 1.5em;
+            margin-top: 28px;
+            font-size: 1.45em;
             font-weight: bold;
-            padding: 30px 20px;
+            padding: 28px 20px;
             border-radius: 10px;
             background-color: #f8f8f8;
             border: 1px solid #eee;
             white-space: pre-line;
+            text-align: center;
         }
 
-        .feedback-section { display: none; margin-top: 20px; }
-        .feedback-section p { font-size: 1.1em; }
-        .feedback-button {
-            font-size: 1.0em;
-            padding: 10px 15px;
-            margin: 5px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+        .feedback-section { display: none; margin-top: 20px; text-align: center; }
+        .feedback-section p { font-size: 1.05em; }
+        .feedback-button { font-size: 1em; padding: 10px 15px; margin: 5px; border-radius: 8px; cursor: pointer; }
         #agreeBtn { background-color: #4CAF50; color: white; border: none; }
         #disagreeBtn { background-color: #F44336; color: white; border: none; }
-        #disagreeOptions { display: none; margin-top: 15px; }
+        #disagreeOptions { display: none; margin-top: 14px; }
         .disagree-choice { background-color: #ff9800; color: white; border: none; }
-        #feedbackThanks { display:none; font-weight:bold; color:#0095F6; margin-top: 15px; }
+        #feedbackThanks { display: none; font-weight: bold; color: #0095F6; margin-top: 15px; text-align: center; }
+
+        .info-section {
+            max-width: 720px;
+            margin: 0 auto 48px;
+            padding: 0 24px;
+        }
+        .info-section h2 {
+            color: #C13584;
+            font-size: 1.35em;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #fce4ec;
+        }
+        .info-section p { color: #444; line-height: 1.8; margin-bottom: 12px; font-size: 0.97em; }
+
+        .score-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.93em; }
+        .score-table th, .score-table td { border: 1px solid #eee; padding: 10px 14px; text-align: left; }
+        .score-table th { background: #fce4ec; color: #c2185b; }
+        .score-table tr:nth-child(even) { background: #fafafa; }
+
+        .guide-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+        .guide-card {
+            flex: 1 1 180px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 16px;
+            color: #333;
+            transition: box-shadow 0.2s;
+        }
+        .guide-card:hover { box-shadow: 0 2px 14px rgba(225,48,108,0.13); text-decoration: none; }
+        .guide-card strong { display: block; color: #E1306C; margin-bottom: 6px; font-size: 0.97em; }
+        .guide-card span { font-size: 0.88em; color: #666; line-height: 1.5; }
+
+        .faq-item { margin-bottom: 24px; }
+        .faq-item dt { font-weight: bold; color: #333; margin-bottom: 6px; }
+        .faq-item dd { color: #555; line-height: 1.75; margin-left: 0; }
+
+        footer {
+            background: #f8f8f8;
+            border-top: 1px solid #eee;
+            text-align: center;
+            padding: 28px 20px;
+            color: #888;
+            font-size: 0.88em;
+            line-height: 2.2;
+        }
+        footer a { color: #aaa; }
+        footer a:hover { color: #E1306C; }
+        .divider { border: none; border-top: 1px solid #eee; margin: 40px auto; max-width: 720px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>😎 인싸도 계산기 😮</h1>
-        <p>3가지만 빠르게 입력하고 인싸력을 측정하세요!</p>
 
+    <nav>
+        <span class="brand">😎 인싸도 계산기</span>
+        <a href="/guide/faq-instagram-metrics.html" class="nav-link">인스타그램 가이드</a>
+        <a href="/about.html" class="nav-link">소개</a>
+        <a href="/contact.html" class="nav-link">문의</a>
+    </nav>
+
+    <div class="hero">
+        <h1>😎 인싸도 계산기 😮</h1>
+        <p class="hero-desc">
+            팔로워 수, 팔로잉 수, 게시물 수 — 세 가지 숫자만 입력하면
+            인스타그램 계정의 <strong>인싸 유형과 점수</strong>를 분석해드립니다.<br>
+            모든 계산은 브라우저에서만 이루어지며, 입력한 정보는 어디에도 저장되지 않습니다.
+        </p>
+    </div>
+
+    <div class="container">
         <div class="input-group">
             <label for="followersInput">1. 팔로워 수</label>
-            <input type="number" id="followersInput" placeholder="예: 1500">
+            <input type="number" id="followersInput" placeholder="예: 1500" min="0">
         </div>
         <div class="input-group">
             <label for="followingInput">2. 팔로잉 수</label>
-            <input type="number" id="followingInput" placeholder="예: 450">
+            <input type="number" id="followingInput" placeholder="예: 450" min="0">
         </div>
         <div class="input-group">
             <label for="mediaCountInput">3. 총 게시물 수</label>
-            <input type="number" id="mediaCountInput" placeholder="예: 120">
+            <input type="number" id="mediaCountInput" placeholder="예: 120" min="0">
         </div>
 
-        <button onclick="calculate()">내 인싸력은?!</button>
+        <button class="calc-btn" onclick="calculate()">내 인싸력은?!</button>
 
-        <div id="result">
-            </div>
+        <div id="result"></div>
 
         <div class="button-wrapper" id="buttonWrapper">
-            <button id="saveButton" onclick="saveResultAsImage()">
-                스토리에 공유 (이미지 저장) 📸
-            </button>
-            <button id="shareButton" onclick="shareLink()">
-                친구에게 링크 공유하기 🚀
-            </button>
+            <button id="saveButton" onclick="saveResultAsImage()">스토리에 공유 (이미지 저장) 📸</button>
+            <button id="shareButton" onclick="shareLink()">친구에게 링크 공유하기 🚀</button>
         </div>
 
         <div class="feedback-section" id="feedbackSection">
-            <hr>
+            <hr style="margin: 20px 0;">
             <p><strong>이 결과, 정확한가요?</strong></p>
             <button id="agreeBtn" class="feedback-button" onclick="handleFeedback('agree')">인정! 👍</button>
             <button id="disagreeBtn" class="feedback-button" onclick="handleFeedback('disagree')">인정 못해! 👎</button>
-            
             <div id="disagreeOptions">
-                <p>그렇다면 당신의 실제 타입은?</p>
+                <p style="margin-top: 12px;">그렇다면 당신의 실제 타입은?</p>
                 <button id="choice1" class="feedback-button disagree-choice"></button>
                 <button id="choice2" class="feedback-button disagree-choice"></button>
             </div>
@@ -146,7 +219,7 @@
 
         <form name="feedback" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
             <input type="hidden" name="form-name" value="feedback" />
-            <p class="hidden"><label>Don’t fill this out if you’re human: <input name="bot-field" /></label></p>
+            <p hidden><label>Don't fill this out if you're human: <input name="bot-field" /></label></p>
             <input type="text" name="followers" />
             <input type="text" name="following" />
             <input type="text" name="mediaCount" />
@@ -154,34 +227,107 @@
             <input type="text" name="feedback" />
             <input type="text" name="userChoice" />
         </form>
-
     </div>
 
-    <script>
-        // --- 스크립트 시작 ---
+    <hr class="divider">
 
-        // [V6.3 수정] '앱인토스' (Bedrock) SDK 초기화
+    <!-- 점수 산정 기준 섹션 -->
+    <div class="info-section">
+        <h2>점수 산정 기준 및 결과 해석</h2>
+        <p>
+            인싸도 계산기는 <strong>팔로워 수(규모)</strong>, <strong>팔로워/팔로잉 비율(영향력)</strong>,
+            <strong>게시물 수(활동량)</strong> 세 가지 지표를 조합해 0~100점 사이의 인싸 점수를 산출합니다.
+            점수가 높을수록 인스타그램 내에서 더 활발하고 영향력 있는 계정임을 나타냅니다.
+        </p>
+
+        <table class="score-table">
+            <thead>
+                <tr><th>점수 범위</th><th>유형</th><th>설명</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>90 ~ 100점</td><td>인플루언서 👑</td><td>팔로워가 많고 비율도 높은 상위 계정</td></tr>
+                <tr><td>70 ~ 89점</td><td>핵인싸 🎉</td><td>높은 팔로워와 우수한 비율을 가진 계정</td></tr>
+                <tr><td>50 ~ 69점</td><td>인싸 💖</td><td>평균 이상의 팔로워와 균형 잡힌 활동</td></tr>
+                <tr><td>30 ~ 49점</td><td>일반인 ☕</td><td>표준적인 계정 활동 수준</td></tr>
+                <tr><td>팔로워 150명 미만</td><td>아싸 😢</td><td>팔로워가 적거나 활동이 적은 계정</td></tr>
+            </tbody>
+        </table>
+
+        <p style="color: #777; font-size: 0.92em;">
+            ※ 팔로워가 150명 미만이면 점수 계산 없이 활동 방식(기록형·소셜형·유령·탐색러)으로 분류됩니다.<br>
+            ※ 이 결과는 오락 목적의 참고 지표이며, 인스타그램 공식 분석 데이터와 다를 수 있습니다.
+        </p>
+
+        <p style="margin-top: 20px;">각 지표가 점수에 미치는 영향이 궁금하다면 아래 가이드를 참고하세요.</p>
+        <div class="guide-links">
+            <a href="/guide/profile-ratio.html" class="guide-card">
+                <strong>팔로워/팔로잉 비율이란?</strong>
+                <span>비율이 점수에 미치는 영향과 이상적인 비율 범위</span>
+            </a>
+            <a href="/guide/post-count.html" class="guide-card">
+                <strong>게시물 수와 계정 점수</strong>
+                <span>게시물 수가 인싸 점수에 어떻게 반영되는지</span>
+            </a>
+            <a href="/guide/follower-growth.html" class="guide-card">
+                <strong>팔로워 늘리기 기초</strong>
+                <span>인스타그램 팔로워를 자연스럽게 늘리는 기본 방법</span>
+            </a>
+            <a href="/guide/faq-instagram-metrics.html" class="guide-card">
+                <strong>인스타그램 지표 FAQ</strong>
+                <span>자주 묻는 계정 지표 관련 질문과 답변 모음</span>
+            </a>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FAQ 섹션 -->
+    <div class="info-section">
+        <h2>자주 묻는 질문 (FAQ)</h2>
+        <dl>
+            <div class="faq-item">
+                <dt>Q. 팔로워 수, 팔로잉 수, 게시물 수는 어디서 확인하나요?</dt>
+                <dd>인스타그램 앱에서 본인 프로필 페이지를 열면 닉네임 아래에 <strong>게시물 수 · 팔로워 · 팔로잉</strong> 숫자가 표시됩니다. 해당 숫자를 그대로 입력하시면 됩니다.</dd>
+            </div>
+            <div class="faq-item">
+                <dt>Q. 입력한 정보가 저장되거나 외부로 전송되나요?</dt>
+                <dd>아닙니다. 모든 계산은 브라우저(기기) 안에서만 이루어지며, 입력값은 어떠한 서버에도 저장되지 않습니다. 피드백 버튼을 누른 경우에만 피드백 데이터가 별도로 수집됩니다.</dd>
+            </div>
+            <div class="faq-item">
+                <dt>Q. 인싸 점수 100점이 되려면 팔로워가 얼마나 있어야 하나요?</dt>
+                <dd>팔로워 수만으로 100점이 되지 않습니다. 팔로워 10,000명 이상(최대 50점) + 팔로워/팔로잉 비율 3.0 이상(30점) + 게시물 150개 이상(20점), 세 조건을 모두 충족해야 100점에 도달할 수 있습니다.</dd>
+            </div>
+            <div class="faq-item">
+                <dt>Q. 팔로워 150명 미만이면 왜 점수가 나오지 않나요?</dt>
+                <dd>팔로워 150명이 이 계산기의 '아싸' 기준선입니다. 이 미만인 경우 점수를 산출하는 대신, 계정 활동 방식(기록형·소셜형·유령 등)에 따라 세부 유형을 안내해드립니다.</dd>
+            </div>
+            <div class="faq-item">
+                <dt>Q. 이 계산기는 인스타그램 공식 도구인가요?</dt>
+                <dd>아닙니다. 인싸도 계산기는 인스타그램(Meta)과 무관한 독립 서비스입니다. 공개 지표를 바탕으로 한 오락·참고 목적의 계산 도구입니다.</dd>
+            </div>
+        </dl>
+    </div>
+
+    <footer>
+        <p>© 2025 인싸도 계산기 &nbsp;|&nbsp; 인스타그램(Meta)과 무관한 독립 서비스입니다.</p>
+        <p>
+            <a href="/about.html">사이트 소개</a> &nbsp;·&nbsp;
+            <a href="/privacy.html">개인정보처리방침</a> &nbsp;·&nbsp;
+            <a href="/terms.html">이용약관</a> &nbsp;·&nbsp;
+            <a href="/contact.html">문의하기</a>
+        </p>
+    </footer>
+
+    <script>
         window.onload = function() {
-            // Toss Developers에서 발급받은 '클라이언트 키'로 변경해야 합니다.
-            const TOSS_CLIENT_KEY = "DBYIzxH6wcn0-NVWj7uXKPaCUsb7hMrnFwJ5bjwej0Q"; 
-            
+            const TOSS_CLIENT_KEY = "DBYIzxH6wcn0-NVWj7uXKPaCUsb7hMrnFwJ5bjwej0Q";
             if (window.bedrock) {
-                // 공식 문서 기준 bedrock.init() 사용
                 bedrock.init({ clientKey: TOSS_CLIENT_KEY })
-                    .then(() => {
-                        console.log("Toss Bedrock SDK Initialized.");
-                        // (필요시) Toss 앱의 네비게이션 바(헤더) 설정
-                        // bedrock.navigation.setTitle("인싸도 계산기");
-                    })
-                    .catch((error) => {
-                        console.error("Toss Bedrock SDK Failed:", error);
-                    });
-            } else {
-                console.warn("Toss Bedrock SDK not found. Running in standard web mode.");
+                    .then(() => console.log("Toss Bedrock SDK Initialized."))
+                    .catch((error) => console.error("Toss Bedrock SDK Failed:", error));
             }
         };
 
-        // V5.2 링크 공유 함수 (Web Share API)
         function shareLink() {
             if (navigator.share) {
                 navigator.share({
@@ -189,38 +335,28 @@
                     text: '내 인스타그램 계정은 인싸일까? 아싸일까? 지금 바로 측정해보세요!',
                     url: 'https://inssado.netlify.app/',
                 })
-                .then(() => console.log('링크 공유 성공'))
                 .catch((error) => console.log('링크 공유 실패', error));
             } else {
                 alert("이 브라우저에서는 링크 공유 기능을 지원하지 않습니다.\n주소를 복사하여 공유해주세요!");
             }
         }
 
-        // V5.1 이미지 저장 함수 (html2canvas)
         function saveResultAsImage() {
             const resultElement = document.getElementById('result');
-            alert("이미지 저장을 시작합니다.\n\n[주의] 브라우저(크롬 등) 상단에 '팝업 차단' 아이콘이 뜨면, '항상 허용'으로 변경해주세요!");
+            alert("이미지 저장을 시작합니다.\n\n[주의] 브라우저 상단에 '팝업 차단' 아이콘이 뜨면, '항상 허용'으로 변경해주세요!");
             html2canvas(resultElement).then(function(canvas) {
                 const imageUrl = canvas.toDataURL('image/png');
                 const downloadLink = document.createElement('a');
                 downloadLink.href = imageUrl;
-                downloadLink.download = 'my_inssa_result.png'; 
+                downloadLink.download = 'my_inssa_result.png';
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 document.body.removeChild(downloadLink);
-                alert("스토리 공유용 이미지가 갤러리에 저장되었습니다!\n\n(혹시 저장이 안 됐다면?)\n1. 팝업 차단을 해제하세요.\n2. (모바일) 이미지가 새 탭으로 열리면, 사진을 꾹 눌러 '이미지 저장'을 선택하세요.");
             });
         }
 
-        // V6.0 계산 결과를 저장할 전역 변수
-        let currentResult = {
-            followers: 0,
-            following: 0,
-            mediaCount: 0,
-            resultType: ""
-        };
+        let currentResult = { followers: 0, following: 0, mediaCount: 0, resultType: "" };
 
-        // V6.0 Netlify 폼 제출 함수
         function submitFeedbackToNetlify(feedbackData) {
             const form = document.forms['feedback'];
             form.elements['followers'].value = feedbackData.followers;
@@ -236,58 +372,43 @@
                 body: new URLSearchParams(new FormData(form)).toString()
             })
             .then(() => {
-                console.log('Netlify 폼 제출 성공');
                 document.getElementById('feedbackSection').style.display = 'none';
                 document.getElementById('feedbackThanks').style.display = 'block';
             })
-            .catch((error) => {
-                console.error('Netlify 폼 제출 실패:', error);
-                alert('오류: 피드백 제출에 실패했습니다.');
-            });
+            .catch((error) => console.error('Netlify 폼 제출 실패:', error));
         }
 
-        // V6.1 피드백 버튼 핸들러 (AI 알림 추가)
         function handleFeedback(type, userChoice = null) {
             const disagreeOptions = document.getElementById('disagreeOptions');
 
             if (type === 'agree') {
-                alert("피드백 감사합니다! AI가 사용자의 응답을 학습합니다. 🤖");
-                submitFeedbackToNetlify({
-                    ...currentResult,
-                    feedback: 'agree'
-                });
+                submitFeedbackToNetlify({ ...currentResult, feedback: 'agree' });
             } else if (type === 'disagree' && !userChoice) {
                 disagreeOptions.style.display = 'block';
                 const choice1 = document.getElementById('choice1');
                 const choice2 = document.getElementById('choice2');
-                
+
                 if (currentResult.resultType.includes('인싸')) {
                     choice1.innerText = "난 사실... 아싸 😢";
                     choice1.onclick = () => handleFeedback('disagree', '아싸');
                     choice2.innerText = "난 사실... 핵인싸 🎉";
                     choice2.onclick = () => handleFeedback('disagree', '핵인싸');
                 } else if (currentResult.resultType.includes('아싸')) {
-                     choice1.innerText = "난 사실... 일반인 ☕";
+                    choice1.innerText = "난 사실... 일반인 ☕";
                     choice1.onclick = () => handleFeedback('disagree', '일반인');
                     choice2.innerText = "난 사실... 인싸 💖";
                     choice2.onclick = () => handleFeedback('disagree', '인싸');
-                } else { 
+                } else {
                     choice1.innerText = "난 사실... 아싸 😢";
                     choice1.onclick = () => handleFeedback('disagree', '아싸');
                     choice2.innerText = "난 사실... 인싸 💖";
                     choice2.onclick = () => handleFeedback('disagree', '인싸');
                 }
             } else if (type === 'disagree' && userChoice) {
-                alert("피드백 감사합니다! AI가 사용자의 응답을 학습합니다. 🤖");
-                submitFeedbackToNetlify({
-                    ...currentResult,
-                    feedback: 'disagree',
-                    userChoice: userChoice
-                });
+                submitFeedbackToNetlify({ ...currentResult, feedback: 'disagree', userChoice });
             }
         }
 
-        // V6.1 메인 계산 함수
         function calculate() {
             let followers = parseInt(document.getElementById('followersInput').value) || 0;
             let following = parseInt(document.getElementById('followingInput').value) || 0;
@@ -302,32 +423,28 @@
                 return;
             }
 
-            const ASSA_THRESHOLD = 150; 
+            const ASSA_THRESHOLD = 150;
             const MEDIA_MANY_THRESHOLD = 150;
             const MEDIA_LOW_THRESHOLD = 30;
 
-            let resultType = ""; 
+            let resultType = "";
             let totalScore = 0;
-            let resultText = ""; 
+            let resultText = "";
 
             if (followers < ASSA_THRESHOLD) {
-                if (following > followers * 2 && following > 100) { 
+                if (following > followers * 2 && following > 100) {
                     resultType = "프로 탐색러 🕵️ (트렌드 사냥꾼)";
-                } 
-                else if (mediaCount >= MEDIA_MANY_THRESHOLD) {
+                } else if (mediaCount >= MEDIA_MANY_THRESHOLD) {
                     resultType = "아싸 (기록형) 📝 (나만의 일기장)";
-                } 
-                else if (mediaCount >= MEDIA_LOW_THRESHOLD) {
+                } else if (mediaCount >= MEDIA_LOW_THRESHOLD) {
                     resultType = "아싸 (소셜형) 😢 (조용한 관찰자)";
-                } 
-                else {
+                } else {
                     resultType = "아싸 (유령) 👻 (존재감 제로)";
                 }
                 resultText = `당신의 타입:\n${resultType}`;
-            } 
-            else {
+            } else {
                 let ratio = (following > 0) ? (followers / following) : (followers > 0 ? Infinity : 0);
-                
+
                 let score1 = 10;
                 if (followers >= 10000) score1 = 50;
                 else if (followers >= 5000) score1 = 45;
@@ -342,38 +459,36 @@
                 else if (ratio >= 0.5) score2 = 10;
 
                 let score3 = 0;
-                if (mediaCount >= MEDIA_MANY_THRESHOLD) score3 = 20; 
+                if (mediaCount >= MEDIA_MANY_THRESHOLD) score3 = 20;
                 else if (mediaCount >= 100) score3 = 15;
                 else if (mediaCount >= 50) score3 = 10;
                 else if (mediaCount >= 10) score3 = 5;
 
-                totalScore = score1 + score2 + score3;
-                if (totalScore > 100) totalScore = 100;
+                totalScore = Math.min(score1 + score2 + score3, 100);
 
-                const LOW_MEDIA_THRESHOLD_INSSA = 50; 
+                const LOW_MEDIA_THRESHOLD_INSSA = 50;
                 if (totalScore >= 90) {
                     resultType = "인플루언서 👑 (당신은 슈퍼스타!)";
-                } 
-                else if (totalScore >= 70) {
-                    resultType = (mediaCount < LOW_MEDIA_THRESHOLD_INSSA) ? "핵인싸 (스토리형) 🤫 (숨은 고수)" : "핵인싸 (클래식) 🎉 (파티의 중심)";
-                } 
-                else if (totalScore >= 50) {
-                    resultType = (mediaCount < LOW_MEDIA_THRESHOLD_INSSA) ? "샤이 인싸 💖 (스토리/소통형)" : "인싸 💖 (적극적 소통가)";
-                } 
-                else {
+                } else if (totalScore >= 70) {
+                    resultType = (mediaCount < LOW_MEDIA_THRESHOLD_INSSA)
+                        ? "핵인싸 (스토리형) 🤫 (숨은 고수)"
+                        : "핵인싸 (클래식) 🎉 (파티의 중심)";
+                } else if (totalScore >= 50) {
+                    resultType = (mediaCount < LOW_MEDIA_THRESHOLD_INSSA)
+                        ? "샤이 인싸 💖 (스토리/소통형)"
+                        : "인싸 💖 (적극적 소통가)";
+                } else {
                     if (mediaCount >= MEDIA_MANY_THRESHOLD) {
                         resultType = "일반인 (헤비 유저) 📸 (일상 공유가)";
-                    } 
-                    else if (mediaCount >= MEDIA_LOW_THRESHOLD) {
+                    } else if (mediaCount >= MEDIA_LOW_THRESHOLD) {
                         resultType = "일반인 (표준) ☕ (균형잡힌 마이웨이)";
-                    } 
-                    else {
+                    } else {
                         resultType = "일반인 (눈팅족) 🤫 (보기만 할게요)";
                     }
                 }
                 resultText = `당신의 인싸 점수는 [ ${totalScore}점 ]\n타입: ${resultType}`;
             }
-            
+
             document.getElementById('result').innerText = resultText;
             currentResult = { followers, following, mediaCount, resultType };
             document.getElementById('buttonWrapper').style.display = 'block';
